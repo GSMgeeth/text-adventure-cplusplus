@@ -147,7 +147,7 @@ int main() {
     
     // Ending 2
     if (score > 6 && score <= 11 && answers[5] == 1) {
-        cout << "Your work finally paysoff. You are successful and achieved many of your goals. Congratulations!" << endl;
+        cout << "VC fund you. Your work finally paysoff. You are successful and achieved many of your goals. Congratulations!" << endl;
         return 0;
     }
     // Ending 3
