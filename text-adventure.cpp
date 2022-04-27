@@ -25,7 +25,7 @@ void getAnswer(const string question, int &answer, const int noOfOptions);
 
 int main() {
     int score = 7;
-    int answers[5] = {0, 0, 0, 0, 0};
+    int answers[9] = {0, 0, 0, 0, 0, 0, 0, 0};
 
     cout << "Text Adventure" << endl
          << endl;
@@ -68,16 +68,92 @@ int main() {
     // Third answer evaluation
     switch (answers[2]) {
         case 1:
-            score--;
-            getAnswer("You worked. Next, (1) work or (2) sleep ? ", answers[3], 2);
+            score = (answers[0] == 1 && answers[1] == 1) ? score : score + 1;
+            getAnswer("You worked and then slept. Next, (1) work or (2) cry ? ", answers[3], 2);
             break;
         case 2:
-            score++;
-            getAnswer("You played. Next, (1) work or (2) sleep ? ", answers[3], 2);
+            score = (answers[0] == 1 && answers[1] == 1) ? score + 1 : score;
+            getAnswer("You slept. Next, (1) work or (2) cry ? ", answers[3], 2);
             break;
         default:
             cout << "The answer is incorrect! Please try again." << endl;
             break;
+    }
+
+    // Forth answer evaluation
+    switch (answers[3]) {
+        case 1:
+            score++;
+            getAnswer("You worked. Next, (1) work or (2) cry ? ", answers[4], 2);
+            break;
+        case 2:
+            getAnswer("You cried. Next, (1) work or (2) cry ? ", answers[4], 2);
+            break;
+        default:
+            cout << "The answer is incorrect! Please try again." << endl;
+            break;
+    }
+
+    // Fifth answer evaluation
+    switch (answers[4]) {
+        case 1:
+            score++;
+            getAnswer("You worked. You meet a VC, (1) talk to VC or (2) work ? ", answers[5], 2);
+            break;
+        case 2:
+            score = answers[3] == 2 ? score - 1 : score;
+            getAnswer("You cried. You meet a VC, (1) talk to VC or (2) work ? ", answers[5], 2);
+            break;
+        default:
+            cout << "The answer is incorrect! Please try again." << endl;
+            break;
+    }
+
+    // Sixth answer evaluation
+    switch (answers[5]) {
+        case 1:
+            score++;
+            cout << "You talked to VC." << endl;
+            break;
+        case 2:
+            score--;
+            cout << "You worked and missed VC." << endl;
+            break;
+        default:
+            cout << "The answer is incorrect! Please try again." << endl;
+            break;
+    }
+
+    if (score > 11 && answers[5] == 1) {
+        getAnswer("VC fund you. (1) Work or (2) play ? ", answers[6], 2);
+
+        for (int i = 0; i < 2; i++)
+        {
+            // Ending 1
+            if (answers[6 + i] == 1) {
+                cout << "Hard work finally paysoff. You are very successful and achieved your goals. Congratulations!" << endl;
+                return 0;
+            }
+            else if (i != 1) {
+                score = 11;
+                getAnswer("Remember how hard you worked for this. Keep it safe! (1) Work or (2) play ? ", answers[7], 2);
+            }
+            else {
+                getAnswer("You are overwhelmed by success. Control yourself! (1) Work or (2) play ? ", answers[8], 2);
+                score = answers[8] == 1 ? score : 6;
+            }
+        }
+    }
+    
+    // Ending 2
+    if (score > 6 && score <= 11 && answers[5] == 1) {
+        cout << "Your work finally paysoff. You are successful and achieved many of your goals. Congratulations!" << endl;
+        return 0;
+    }
+    // Ending 3
+    else {
+        cout << "Oh! you couldn't make it. But, don't worry. There is still hope! (1) work (2)..." << endl;
+        return 0;
     }
 }
 
